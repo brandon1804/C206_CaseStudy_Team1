@@ -26,17 +26,17 @@ public class UserTest {
 
 	@Test
 	public void addUserTest() {
-				//Test that userList is NOT null
+				//Test that userList is NOT null - Boundary
 				assertNotNull("Test that userList is NOT null", UserDatabase.userList);
 				
-				//Test that the size of userList is empty before adding any users 
+				//Test that the size of userList is empty before adding any users - Boundary
 				assertEquals("Test that the size of userList is empty before adding any users", 0, UserDatabase.userList.size());
 				
-				//Test that the size of userList is 1 after adding a user
+				//Test that the size of userList is 1 after adding a user - Normal
 				UserDatabase.addUser(user1);
 				assertEquals("Test that the size of userList is 1 after adding a user", 1, UserDatabase.userList.size());
 				
-				//Test that the first element in userList is the same as what was added
+				//Test that the first element in userList is the same as what was added - Normal
 				assertSame("Test that the first element in userList is the same as what was added", user1, UserDatabase.userList.get(0));
 		
 	}
@@ -55,7 +55,7 @@ public class UserTest {
 				UserDatabase.addUser(user1);	
 				assertEquals("Test that userList's size is 1", 1, UserDatabase.userList.size());
 				
-				//Test if the expected output is the same as the list of users retrieved from the UserDatabase	
+				//Test if the expected output is the same as the list of users retrieved from the UserDatabase	- Normal
 				allUsers = UserDatabase.retrieveAllUsers(UserDatabase.userList);
 				testOutput = String.format("%-20s %-20s %-20s %-20s\n","Elijah", "elijah@myrp.edu.sg","buyer","123");
 				assertEquals("Test if the expected output is the same as the list of users retrieved from the UserDatabase",testOutput, allUsers);
