@@ -5,52 +5,28 @@ public class BidDB {
 
 		int option = 0;
 
-		while (option != 4) {
+		while (option != 5) {
+
 			BidDB.showBidMenu();
 			option = Helper.readInt("Enter an option > ");
+
 			if (option == 1) {
 				// View all items
 				BidDB.viewAllBid();
+
 			} else if (option == 2) {
-				int count = 0;
-				String a = Helper.readString("Enter A Bid ID > ");
+				addBid();
 
-				if (getBidList().size() == 0) {
-					ques(a);
-				} else {
-					for (int i = 0; i < getBidList().size(); i++) {
-						if (a.equals(getBidList().get(i).getBidID()) == true) {
-							System.out.println("Bid ID already exist please key in a unique ID\n");
-							count = count + 1;
-						}
-					}
-					if (count == 0) {
-						ques(a);
-					}
-				}
 			} else if (option == 3) {
-				int count = 0;
-				String name = Helper.readString("Enter Your Email > ");
-				if (getBidList().size() == 0) {
-					System.out.println("The user does not have a existing bid\n");
-				} else {
-					for (int i = 0; i < getBidList().size(); i++) {
-
-						if (name.equals(getBidList().get(i).getBuyerEmail()) == true) {
-							output(i);
-							String selc = Helper.readString("Enter Item ID of item you wish to remove > ");
-							BidDB.delBid(selc);
-							System.out.println("Item removed\n");
-							count = count + 1;
-						}
-					}
-					if (count == 0) {
-						System.out.println("The user does not have a existing bid\n");
-					}
-				}
+				removeBid();
 			}
 
 			else if (option == 4) {
+				updateBid();
+			}
+
+			// Escape Option
+			else if (option == 5) {
 				System.out.println("Thank You. GoodBye!");
 			} else {
 				System.out.println("Invalid Option\n");
@@ -59,10 +35,107 @@ public class BidDB {
 		}
 	}
 
-	public static void ques(String a) {
+	// All Methods Here
+
+	public static void updateBid() {
+		boolean count = false;
+		boolean count2 = false;
+		boolean count3 = false;
+		String name = Helper.readString("Enter Your Email > ");
+		if (getBidList().size() == 0) {
+			System.out.println("This user does not have a existing bid\n");
+		} else {
+			for (int i = 0; i < getBidList().size(); i++) {
+
+				if (name.equals(getBidList().get(i).getBuyerEmail()) == true) {
+					output(i);
+
+					count = true;
+					count2 = true;
+				}
+			}
+			if (count2 == true) {
+				String selc = Helper.readString("Enter Bid ID of item you wish to update bid > ");
+
+				for (int i = 0; i < getBidList().size(); i++) {
+					if (selc.equals(getBidList().get(i).getBidID()) == true) {
+						String bidSelec = Helper.readString("Enter The updated bid amount > ");
+						getBidList().get(i).setBidPrice(Integer.parseInt(bidSelec));
+						System.out.println("Bid Updated\n");
+						count3 = true;
+					}
+				}
+
+			}
+			if (count3 == false) {
+				System.out.println("Invalid Bid ID Keyed\n");
+			}
+
+			if (count == false) {
+				System.out.println("This user does not have a existing bid\n");
+			}
+		}
+	}
+
+	public static void removeBid() {
+		boolean count = false;
+		boolean count2 = false;
+
+		String name = Helper.readString("Enter Your Email > ");
+		if (getBidList().size() == 0) {
+			System.out.println("This user does not have a existing bid\n");
+		} else {
+			for (int i = 0; i < getBidList().size(); i++) {
+
+				if (name.equals(getBidList().get(i).getBuyerEmail()) == true) {
+					output(i);
+					count = true;
+					count2 = true;
+				}
+			}
+
+			if (count2 == true) {
+				String selc = Helper.readString("Enter Item ID of item you wish to remove > ");
+				BidDB.delBid(selc);
+				System.out.println("Item removed\n");
+			}
+			if (count == false) {
+				System.out.println("This user does not have a existing bid\n");
+			}
+		}
+	}
+
+	public static void addBid() {
+		int count2 = 0;
+		String buyerEmail = Helper.readString("Enter Your Email Address > ");
+
+		for (int i = 0; i < getBidList().size(); i++) {
+			if (buyerEmail.equals(getBidList().get(i).getBuyerEmail()) == true) {
+				count2 = count2 + 1;
+			}
+		}
+
+		if (count2 >= 3) {
+			System.out.println("Your email have reached the max amount(3) of bids per time\n");
+		}
+
+		else {
+			int counter = 1;
+			String change;
+
+			for (int i = 0; i < getBidList().size(); i++) {
+				counter = counter + 1;
+				
+			}
+			change = String.valueOf(counter);
+			ques(change, buyerEmail);
+
+		}
+	}
+
+	public static void ques(String a, String d) {
 		String b = Helper.readString("Enter Item Name > ");
 		String c = Helper.readString("Enter Seller Eamil > ");
-		String d = Helper.readString("Enter your Email > ");
 		int e = Helper.readInt("Enter Your Bid Price > ");
 
 		System.out.println();
@@ -79,10 +152,11 @@ public class BidDB {
 	private static ArrayList<Bid> bidList = new ArrayList<Bid>();
 
 	public static void showBidMenu() {
-		System.out.println("1: View All Bid");
+		System.out.println("1: View Bid");
 		System.out.println("2: Add Bid");
 		System.out.println("3: Remove Bid");
-		System.out.println("4: Quit");
+		System.out.println("4: Update Bid");
+		System.out.println("5: Quit");
 	}
 
 	public static void addBid(Bid bid) {
@@ -91,14 +165,72 @@ public class BidDB {
 
 	public static void viewAllBid() {
 
+		boolean helpMe = false;
+
 		if (getBidList().size() == 0) {
 			System.out.println("There is no Bid Currently\n");
 		} else {
-			for (int i = 0; i < getBidList().size(); i++) {
+			System.out.println("\n1: View Bid By Item Name");
+			System.out.println("2: View Bid By Seller Email");
+			System.out.println("3: View Bid By Your Email");
+			System.out.println("4: View All Bid\n");
+			int getChoice = Helper.readInt("Enter Your Selection > ");
 
-				output(i);
+			if (getChoice == 1) {
+				String nameItem = Helper.readString("Enter the Item Name > ");
+
+				for (int i = 0; i < getBidList().size(); i++) {
+					if (nameItem.equals(getBidList().get(i).getItemName()) == true) {
+						output(i);
+						helpMe = true;
+					}
+
+				} // ForLoopItemName
+
+			} // Option1
+
+			else if (getChoice == 2) {
+				String nameItem = Helper.readString("Enter the Seller Email > ");
+
+				for (int i = 0; i < getBidList().size(); i++) {
+					if (nameItem.equals(getBidList().get(i).getSellerEmal()) == true) {
+						output(i);
+						helpMe = true;
+					}
+				} // ForLoopItemName
+
+			} // Option2
+
+			else if (getChoice == 3) {
+				String nameItem = Helper.readString("Enter Your Email> ");
+
+				for (int i = 0; i < getBidList().size(); i++) {
+					if (nameItem.equals(getBidList().get(i).getBuyerEmail()) == true) {
+						output(i);
+						helpMe = true;
+					}
+
+				} // ForLoopItemName
+
+			} // Option3
+
+			else if (getChoice == 4) {
+
+				for (int i = 0; i < getBidList().size(); i++) {
+					output(i);
+					helpMe = true;
+				} // Option4
+
+			} else {
+				System.out.println("Invalid Option\n");
 			}
+
+			if (helpMe == false) {
+				System.out.println("There is no bid related to your search\n");
+			}
+
 		}
+
 	}
 
 	public static void delBid(String a) {
