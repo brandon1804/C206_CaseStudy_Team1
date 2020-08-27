@@ -49,7 +49,7 @@ public class UserTest {
 				//Test if the list of users retrieved from the UserDatabase is empty - Boundary
 				String allUsers = UserDatabase.retrieveAllUsers(UserDatabase.userList);
 				String testOutput = "";
-				assertEquals("Test that the retrieved Chromebooklist is empty", testOutput, allUsers);
+				assertEquals("Test that the retrieved userList is empty", testOutput, allUsers);
 				
 				//Given an empty list, after adding 1 item, test if the size of the list is 1 - Normal
 				UserDatabase.addUser(user1);	
@@ -69,7 +69,7 @@ public class UserTest {
 				//Test if the list of users retrieved from the UserDatabase is empty - Boundary
 				String allUsers = UserDatabase.retrieveAllUsers(UserDatabase.userList);
 				String testOutput = "";
-				assertEquals("Test that the retrieved Chromebooklist is empty", testOutput, allUsers);
+				assertEquals("Test that the retrieved userList is empty", testOutput, allUsers);
 				
 				//Given an empty list, after adding 1 item, test if the size of the list is 1 - Normal
 				UserDatabase.addUser(user1);	
@@ -80,6 +80,30 @@ public class UserTest {
 				assertEquals("Test that userList's size is 0", 0, UserDatabase.userList.size());
 				
 	}
+	
+	//Created by Brandon on 27/8/20	For Sprint 2 
+	@Test
+	public void searchUserTest() {
+				// Test if user list is not null but empty - Boundary
+				assertNotNull("Test if there is a valid userList to retrieve users from", UserDatabase.userList);
+				
+				//Test if the list of users retrieved from the UserDatabase is empty - Boundary
+				String allUsers = UserDatabase.retrieveAllUsers(UserDatabase.userList);
+				String testOutput = "";
+				assertEquals("Test that the retrieved userList is empty", testOutput, allUsers);
+				
+				//Given an empty list, after adding 1 item, test if the size of the list is 1 - Normal
+				UserDatabase.addUser(user1);	
+				assertEquals("Test that userList's size is 1", 1, UserDatabase.userList.size());
+				
+				//Test if the expected output retrieves and displays the correct output	- Normal
+				String email = "elijah@myrp.edu.sg";
+				testOutput = "User account found";
+				assertEquals("Test that userList's size is 0", testOutput, UserDatabase.searchUser(UserDatabase.userList, email));
+				
+	}
+	
+	
 	
 	
 
