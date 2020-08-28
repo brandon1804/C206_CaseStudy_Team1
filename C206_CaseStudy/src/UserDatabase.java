@@ -81,46 +81,39 @@ public class UserDatabase {
 		
 	}//end of searchUser method
 	
-	//Created by Brandon on 27/8/20	For Sprint 2 
-	public static String inputUserName() {
-		Helper.line(80, "-");
-		System.out.println("Update Account");
-		Helper.line(80, "-");
-		String uname = Helper.readString("Enter name to update > ");		
-		return uname;
-	}//end of inputUserName method
-	
-	
-	//Created by Brandon on 27/8/20	For Sprint 2 
-		public static String updateUserAccount(ArrayList<User> userList, String uname) {
-			boolean isFound = false;
-			String message = "";
-			int index = 0;
+	//Created by Brandon on 28/8/20	For Sprint 2 
+		public static boolean doUpdateUserAccount(ArrayList<User> userList, String uname, String name, String password) {
+			boolean isUpdated = false;	
 			if(userList.size() != 0) {
 				 for (int i = 0; i < userList.size(); i++) {
 						if(uname.equalsIgnoreCase(userList.get(i).getName())) {
-							isFound = true;
-							index = i;
+							userList.get(i).setName(name);
+							userList.get(i).setPassword(password);
+							isUpdated = true;
 						}
 					}
 			 }//end of if
-			 
-			if(isFound == true) {
-				 Helper.line(80, "-");
-				 String name = Helper.readString("Enter new name > ");
-				 String password = Helper.readString("Enter new password > ");
-				 userList.get(index).setName(name);
-				 userList.get(index).setPassword(password);
-				 message = "Update Successful"; 
-				 Helper.line(80, "-");
-			 }
-			 else {
-				 message = "Update Failed. Please try again.";
-				 UserDatabase.updateUserAccount(userList, uname);
-			 }
-					
-			return message;
-		}//end of updateUserAccount method
+			return isUpdated;
+		}//end of doUpdateUserAccount method
+		
+		
+		//Created by Brandon on 28/8/20	For Sprint 2 
+			public static void updateUserAccount(ArrayList<User> userList) {
+				String uname = Helper.readString("Enter name to update > ");
+				String name = Helper.readString("Enter new name > ");
+				String password = Helper.readString("Enter new password > ");
+				boolean isUpdated = doUpdateUserAccount(userList, uname, name, password);
+				if(isUpdated == true) {
+					 Helper.line(80, "-");
+					 System.out.println("Update Successful"); 
+				 }
+				 else {
+					 System.out.println("Update Failed. User does not exist. Please try again.");
+					 Helper.line(80, "-");
+					 UserDatabase.updateUserAccount(userList);
+				 }
+						
+			}//end of updateUserAccount method
 	
 	//Created by Brandon on 27/8/20	For Sprint 2 
 	public static void userLogin(ArrayList<User> userList){
