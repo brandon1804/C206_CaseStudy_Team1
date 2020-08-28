@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 
+
 public class BidDB {
 	public static void main(String[] args) {
 
 		int option = 0;
 
-		while (option != 5) {
+		while (option != 6) {
 
 			BidDB.showBidMenu();
 			option = Helper.readInt("Enter an option > ");
@@ -25,8 +26,12 @@ public class BidDB {
 				updateBid();
 			}
 
-			// Escape Option
 			else if (option == 5) {
+				removeBuyerBid();
+			}
+
+			// Escape Option
+			else if (option == 6) {
 				System.out.println("Thank You. GoodBye!");
 			} else {
 				System.out.println("Invalid Option\n");
@@ -35,7 +40,37 @@ public class BidDB {
 		}
 	}
 
+	
+	
+	
 	// All Methods Here
+	public static void removeBuyerBid() {
+		boolean count = false;
+		boolean count2 = false;
+
+		String name = Helper.readString("Enter Your Email > ");
+		if (getBidList().size() == 0) {
+			System.out.println("There is currently no active bid\n");
+		} else {
+			for (int i = 0; i < getBidList().size(); i++) {
+
+				if (name.equals(getBidList().get(i).getSellerEmal()) == true) {
+					output(i);
+					count = true;
+					count2 = true;
+				}
+			}
+
+			if (count2 == true) {
+				String selc = Helper.readString("Enter Bid ID of buyer bid you wish to remove > ");
+				BidDB.delBid(selc);
+				System.out.println("Item removed\n");
+			}
+			if (count == false) {
+				System.out.println("This user is not selling any items at the moment\n");
+			}
+		}
+	}
 
 	public static void updateBid() {
 		boolean count = false;
@@ -43,7 +78,7 @@ public class BidDB {
 		boolean count3 = false;
 		String name = Helper.readString("Enter Your Email > ");
 		if (getBidList().size() == 0) {
-			System.out.println("This user does not have a existing bid\n");
+			System.out.println("There is currently no active bid\n");
 		} else {
 			for (int i = 0; i < getBidList().size(); i++) {
 
@@ -83,7 +118,7 @@ public class BidDB {
 
 		String name = Helper.readString("Enter Your Email > ");
 		if (getBidList().size() == 0) {
-			System.out.println("This user does not have a existing bid\n");
+			System.out.println("There is currently no active bid\n");
 		} else {
 			for (int i = 0; i < getBidList().size(); i++) {
 
@@ -95,7 +130,7 @@ public class BidDB {
 			}
 
 			if (count2 == true) {
-				String selc = Helper.readString("Enter Item ID of item you wish to remove > ");
+				String selc = Helper.readString("Enter Bid ID of item you wish to remove > ");
 				BidDB.delBid(selc);
 				System.out.println("Item removed\n");
 			}
@@ -125,7 +160,7 @@ public class BidDB {
 
 			for (int i = 0; i < getBidList().size(); i++) {
 				counter = counter + 1;
-				
+
 			}
 			change = String.valueOf(counter);
 			ques(change, buyerEmail);
@@ -156,7 +191,8 @@ public class BidDB {
 		System.out.println("2: Add Bid");
 		System.out.println("3: Remove Bid");
 		System.out.println("4: Update Bid");
-		System.out.println("5: Quit");
+		System.out.println("5: Cancel Buyer Bid (For Seller)");
+		System.out.println("6: Quit");
 	}
 
 	public static void addBid(Bid bid) {
@@ -168,7 +204,7 @@ public class BidDB {
 		boolean helpMe = false;
 
 		if (getBidList().size() == 0) {
-			System.out.println("There is no Bid Currently\n");
+			System.out.println("There is currently no active bid\n");
 		} else {
 			System.out.println("\n1: View Bid By Item Name");
 			System.out.println("2: View Bid By Seller Email");
