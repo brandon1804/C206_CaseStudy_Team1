@@ -84,21 +84,19 @@ public class UserTest {
 	//Created by Brandon on 27/8/20	For Sprint 2 
 	@Test
 	public void searchUserTest() {
-				// Test if user list is not null but empty - Boundary
+				// Test if there is a valid user list - Boundary
 				assertNotNull("Test if there is a valid userList to retrieve users from", UserDatabase.userList);
+				UserDatabase.addUser(user1);
 				
-				//Test if the list of users retrieved from the UserDatabase is empty - Boundary
-				String allUsers = UserDatabase.retrieveAllUsers(UserDatabase.userList);
-				String testOutput = "";
-				assertEquals("Test that the retrieved userList is empty", testOutput, allUsers);
-				
-				//Given an empty list, after adding 1 item, test if the size of the list is 1 - Normal
-				UserDatabase.addUser(user1);	
-				assertEquals("Test that userList's size is 1", 1, UserDatabase.userList.size());
 				
 				//Test if the expected output retrieves and displays the correct output	- Normal
 				String email = "elijah@myrp.edu.sg";
-				testOutput = "User account found";
+				String testOutput = "User account found";
+				assertEquals("Test if the expected output retrieves and displays the correct output", testOutput, UserDatabase.searchUser(UserDatabase.userList, email));
+				
+				//Test if the system displays the correct output when the user enters an invalid email - Error
+				email = "e@myrp.edu.sg";
+				testOutput = "User account does not exist";
 				assertEquals("Test if the expected output retrieves and displays the correct output", testOutput, UserDatabase.searchUser(UserDatabase.userList, email));
 				
 	}
@@ -119,7 +117,7 @@ public class UserTest {
 				String userInfo = UserDatabase.retrieveAllUsers(UserDatabase.userList);
 				assertEquals("Test if the system updates the user's information", testOutput, userInfo);
 				
-				// Test if the system disallows updates if the user is not found	- Error
+				// Test if the system disallows updates if the user is not found - Error
 				uname = "A";
 				name = "E";
 				password = "1";
@@ -143,7 +141,7 @@ public class UserTest {
 				Boolean found = UserDatabase.doUserLogin(UserDatabase.userList, name, password);
 				assertTrue("Test if the system recognises the user", found);
 				
-				// Test if the system rejects unauthorised users	- Error
+				// Test if the system rejects unauthorised user - Error
 				name = "E";
 			    password = "1";
 				found = UserDatabase.doUserLogin(UserDatabase.userList, name, password);
