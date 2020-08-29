@@ -88,7 +88,6 @@ public class CategoryTest {
 		CategoryDB.addCategory(cat1);
 		CategoryDB.deleteCategory("cat1");
 		assertEquals("Test that category is deleted based on the name", 1, CategoryDB.catList.size());
-
 	}
 	
 	// updated by Yuhan at 27/8/2020 for Sprint 2
@@ -98,13 +97,13 @@ public class CategoryTest {
 		// Test that catList is NOT null
 		assertNotNull("Test that catList is NOT null", CategoryDB.catList);
 		
-		// Test that size of catList is not empty before updating category
+		// Test that the size of catList is not empty before updating category
 		CategoryDB.addCategory(cat1);
 		CategoryDB.updateCategory("cat1");
 		assertTrue("Test that size of catList is not empty before updating category", CategoryDB.catList.isEmpty() == false);
 	}
 	
-	// updated by Yuhan at 27/8/2020 for Sprint 2
+	// updated by Yuhan at 28/8/2020 for Sprint 2
 	@Test
 	public void checkCategory() {
 		
@@ -114,6 +113,7 @@ public class CategoryTest {
 		// Test that the size of catList is 1 to show the number of items
 		CategoryDB.addCategory(cat1);
 		assertEquals("Test that the size of catList is 1 to show the number of items", 1, CategoryDB.catList.size());
+
 	}
 
 	@Test

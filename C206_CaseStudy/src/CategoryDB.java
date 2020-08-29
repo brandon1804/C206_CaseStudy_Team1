@@ -41,7 +41,7 @@ public class CategoryDB {
 		}
 	}
 	
-	// updated by Yuhan at 27/8/2020 for Sprint 2
+	// updated by Yuhan at 28/8/2020 for Sprint 2
 	public static void updateCategory(String name) {
 		boolean present = false;
 		Category cat = null;
@@ -60,7 +60,7 @@ public class CategoryDB {
 		}
 	}
 	
-	// updated by Yuhan at 27/8/2020 for Sprint 2
+	// updated by Yuhan at 28/8/2020 for Sprint 2
 	public static void checkCategory() {
 		
 	}
