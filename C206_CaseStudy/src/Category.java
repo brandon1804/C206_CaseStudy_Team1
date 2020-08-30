@@ -18,7 +18,8 @@ public class Category {
 	}
 
 	public String toString() {
-		return "Category [name=" + name + "]";
+		String output = String.format("%-25s\n",  "CATEGORY NAME");
+		return output;
 	}
 	
 	

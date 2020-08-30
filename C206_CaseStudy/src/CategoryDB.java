@@ -6,75 +6,117 @@ import java.util.ArrayList;
 public class CategoryDB {
 
 	public static ArrayList<Category> catList = new ArrayList<Category>();
-	
-	public static Category inputCategory() {
-		showCategoryMenu();
-		String catName = Helper.readString("Enter category name: ");
-		System.out.println(catName + " category added!");
-		Category cat = new Category(catName);
-		return cat;
-	}
-	
-	public static void addCategory(Category cat) {
-		catList.add(cat);
-		System.out.println("Category added");
-	}
-	
-	public static void viewCategories() {
-		String allCat = String.format("%-5s %-25s\n", "ID no", "CATEGORY NAME");
+
+	public static String viewCategories(ArrayList<Category> catList) {
+		String allCat = String.format("%-25s\n", "-- CATEGORY NAME --");
 		
 		for (int i = 0; i < catList.size(); i++) {
-			allCat += String.format("%-5s %-25s\n", (i + 1) ,catList.get(i).toString());
+			allCat += String.format("%-25s\n" ,catList.get(i).getName());
 		}
-		System.out.println(allCat);
+		return allCat;
 	}
-	
-	public static void deleteCategory(String name) {
-		String catName = Helper.readString("Enter category name: ");
-		if (CategoryDB.catList.contains(catName)) {
-			if (!(CategoryDB.catList.isEmpty())) {
-				System.out.println("There are items in the category.");
+		
+	public static void addCategory(String cat) {
+		String catName = Helper.readString("Enter new category name: ");
+		Category newCat = new Category(catName);
+		catList.add(newCat);
+		System.out.println(catName + " added!");
+	}
+
+	// updated by Yuhan at 28/8/2020 for Sprint 2
+	public static void deleteCategory(String catName) {
+		boolean present = false;
+				
+		int i = 0; 
+		for (;i < catList.size(); i++) {
+			if (catList.get(i).getName().contains(catName)) {
+				present = true;
+				break;
 			}
-			else {
-				CategoryDB.deleteCategory(catName);
-			}
+		}
+		
+		if (present) {
+			catList.remove(i);
+			System.out.println(catName + " deleted.");
+		}
+		else {
+			System.out.println("Category not found");
 		}
 	}
 	
 	// updated by Yuhan at 28/8/2020 for Sprint 2
 	public static void updateCategory(String name) {
 		boolean present = false;
-		Category cat = null;
 		
-		for (int i = 0; i < catList.size(); i++) {
-			if (catList.get(i).getName().equalsIgnoreCase(name));
-			present = true;
-			cat = catList.get(i);
+		int i = 0;
+		for (; i < catList.size(); i++) {
+			if (catList.get(i).getName().contains(name) == true) {
+				present = true;
+				break;
+			}			
 		}
-		if (present == true) {
+		
+		if (present) {
 			String newCatName = Helper.readString("Enter new category name: ");
-			cat.setName(newCatName);
-			System.out.println(newCatName + " updated!");
-		} else {
+			catList.get(i).setName(newCatName);
+			System.out.println(name + " updated to " + newCatName);
+		} 
+		else {
 			System.out.println("You have entered an invalid category name.");
 		}
 	}
 	
-	// updated by Yuhan at 28/8/2020 for Sprint 2
-	public static void checkCategory() {
-		
-	}
+	
 	
 	
 	
 	public static void showCategoryMenu() {
+		C206_CaseStudy.setHeader("CATEGORY MENU");
 		System.out.println("1. View all Categories");
 		System.out.println("2. Add category");
 		System.out.println("3. Delete category");
 		// updated by Yuhan at 27/8/2020 for Sprint 2
 		System.out.println("4. Update category");
 		System.out.println("5. Quit");
+		System.out.println("");
 	}
+	
+	public static void categoryMenu() {
+		
+		catList.add(new Category("CD"));
+		catList.add(new Category("Books"));
+		catList.add(new Category("Electronic accessories"));
+		
+		int option = 0;
+		while (option != 5) {
+			
+			CategoryDB.showCategoryMenu();
+			option = Helper.readInt("Enter option no: ");
+			
+			if (option == 1) {
+				C206_CaseStudy.setHeader("VIEW CATEGORY");
+				System.out.println(CategoryDB.viewCategories(catList));
+			}
+			else if (option == 2) {
+				C206_CaseStudy.setHeader("ADD CATEGORY");
+				CategoryDB.addCategory(null);
+			}
+			else if (option == 3) {
+				C206_CaseStudy.setHeader("DELETE CATEGORY");
+				String catName = Helper.readString("Enter category name: ");
+				CategoryDB.deleteCategory(catName);
+			}
+			else if (option == 4) {
+				C206_CaseStudy.setHeader("UPDATE CATEGORY");
+				String update = Helper.readString("Enter category name: ");
+				CategoryDB.updateCategory(update);
+			}
+			else {
+				System.out.println("Goodbye!");
+			}
+		}
+	}
+	
 	
 
 }//end of class
