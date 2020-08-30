@@ -51,7 +51,8 @@ public class CategoryTest {
 		assertEquals("Test that the size of catList is 1 after adding a category", 1, CategoryDB.catList.size());
 		
 		// Test that the first element in catList is the same as what was added
-		assertSame("Test that the first element in catList is the same as what was added", cat1, CategoryDB.catList.get(0));
+		catList.add(cat1);
+		assertSame("Test that the first element in catList is the same as what was added", cat1, catList.get(0));
 		
 	}
 	
@@ -69,7 +70,9 @@ public class CategoryTest {
 		assertEquals("Test that the size of catList is 1 after adding a category", 1, CategoryDB.catList.size());
 		
 		// Test that the first element in catList is the same as what was added
-		assertSame("Test that the first element in catList is the same as what was added", cat1, CategoryDB.catList.get(0));		
+		catList.add(cat1);
+		assertSame("Test that the first element in catList is the same as what was added", cat1, catList.get(0));
+				
 		
 	}
 	
